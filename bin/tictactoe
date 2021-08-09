@@ -1,3 +1,50 @@
 #!/usr/bin/env ruby
 
 require_relative '../config/environment'
+
+def initial_board
+    puts "  |  |  "
+    puts "-----------"
+    puts "  |  |  "
+    puts "-----------"
+    puts "  |  |  "
+end
+
+
+
+def begin_game
+    puts "Hello, welcome to Tic-Tac-Toe! I've worked hard on this and my brain is fuzzy from vacation, so bear with me here."
+
+    puts "How many players will there be? You can say 0, 1 or 2."
+
+    players_input = gets.chomp
+    if players_input == "0"
+        puts "Ok, the computer will play against the computer! Let the game begin."
+        initial_board
+        Game.new(Players::Computer.new("X"), Players::Computer.new("O"), Board.new).play
+    elsif players_input == "1"
+        puts "Alright, you (the human, I hope) will play against the computer. Good luck!"
+        puts "Do you want to go first and be X? Type 'Y' or 'N'."
+        first_player = gets.chomp
+        initial_board
+        if first_player == "Y"
+            Game.new(Players::Human.new("X"), Players::Computer.new("O"), Board.new).play
+        else 
+            Game.new(Players::Computer.new("X"), Players::Human.new("O"), Board.new).play
+        end
+    elsif players_input == "2"
+        puts "Greetings, two humans! May the best tic-tac-toe-er win."
+        initial_board
+        Game.new(Players::Human.new("X"), Players::Human.new("O"), Board.new).play
+    end
+    puts "Would you like to play again? Please type Y or N."
+    begin_game until gets.strip == "N"
+end
+
+begin_game
+
+
+
+
+
+

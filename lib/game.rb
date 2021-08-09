@@ -49,15 +49,28 @@ class Game
     end
 
     def turn
-        puts "Where would you like to move?"
-        input = gets.strip
-        # index = input_to_index(input)
-        # if valid_move?(index)
-        #     move(index, token = current_player)
-        #     display_board
-        # else
-        #     turn
-        # end
+        player = current_player
+        puts "Where would you like to move? Please enter 1-9."
+        current_move = player.move(@board)
+        if !@board.valid_move?(current_move)
+            puts "That's an invalid move!"
+            turn
+        else
+            puts "Moving to space #{current_move}"
+            @board.update(current_move, player)
+            @board.display
+        end
+    end
+
+    def play
+        until over?
+            turn
+        end
+        if won?
+            puts "Congratulations #{winner}!"
+        elsif draw?
+            puts "Cat's Game!"
+        end
     end
 
 
